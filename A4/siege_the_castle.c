@@ -509,7 +509,8 @@ START MISC
 
 PRIVATE int secret_ioctl(struct driver *d, message *m)
 {
-  int new_usr, success, res;
+  uid_t new_usr; 
+  int success, res;
   struct ucred u;
 
   success = getnucred(m->IO_ENDPT, &u);
@@ -526,30 +527,6 @@ PRIVATE int secret_ioctl(struct driver *d, message *m)
     grantee = new_usr;
     return OK;
   }
-/*
-  struct ucred u;
-  int success;
-  int new_usr;
-
-  printf("secret_ioctle()\n");
-  success = getnucred(m->PROC_NR, &u);
-  if (m->m_type != SSGRANT) { return ENOTTY; }
-  if (u.uid != grantee) { return OK; }
-
-  fd = open(FILENAME, OWRONLY);
-  printf("Opening...  fd=%d\n",fd);
-  res = write(fd, secret_ptr, last_written - last_read);
-  printf("Writing...  res=%d\n",res);
-
-
-  if( argc > 1 && 0 != (new_usr = atoi(argv[1]) ) )
-  {
-    if( res = ioctl(fd, SSGRANT, &new_usr) ) { perror("ioctl"); }
-    printf("Trying to change owner to %d...res=%d\n", uid, res);
-  }
-
-  res=close(fd);
-  grantee = new_usr;*/
 
   return ENOTTY;
 }
